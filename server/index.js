@@ -23,7 +23,7 @@ app.use(helmet({
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://hodgins.insure', 'https://www.hodgins.insure']
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:4173']
+    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:4173']
 }));
 app.use(express.json());
 
@@ -43,9 +43,14 @@ const limiter = rateLimit({
 function validateQuoteRequest(data) {
   const errors = {};
 
-  // Validate zip code (Florida zip codes)
-  if (!data.zipCode || !/^\d{5}$/.test(data.zipCode)) {
-    errors.zipCode = 'Please enter a valid 5-digit zip code';
+  // Validate first name (required)
+  if (!data.firstName || data.firstName.trim().length < 2) {
+    errors.firstName = 'Full name is required';
+  }
+
+  // Auto-fill last name if missing (use first name)
+  if (!data.lastName || data.lastName.trim().length < 2) {
+    data.lastName = data.firstName || 'Customer'; // Auto-fill if missing
   }
 
   // Validate email
@@ -59,14 +64,6 @@ function validateQuoteRequest(data) {
   const cleanPhone = data.phone?.replace(/\D/g, '');
   if (!data.phone || !phoneRegex.test(data.phone) || cleanPhone.length < 10) {
     errors.phone = 'Please enter a valid phone number';
-  }
-
-  // Validate name
-  if (!data.firstName || data.firstName.trim().length < 2) {
-    errors.firstName = 'Please enter your first name';
-  }
-  if (!data.lastName || data.lastName.trim().length < 2) {
-    errors.lastName = 'Please enter your last name';
   }
 
   // Honeypot check - if filled, it's a bot
@@ -112,12 +109,19 @@ async function storeLead(leadData) {
 // POST endpoint for quote requests
 app.post('/api/quote', limiter, async (req, res) => {
   try {
-    const { honeypot, ...leadData } = req.body;
+    console.log('📥 Received quote request:', {
+      body: req.body,
+      ip: req.ip,
+      origin: req.get('origin'),
+      userAgent: req.get('user-agent')
+    });
+
+    const { honeypot, website, ...leadData } = req.body;
 
     // Add metadata
     leadData.ip = req.ip;
     leadData.userAgent = req.get('user-agent');
-    leadData.website = honeypot; // Honeypot field
+    leadData.website = website || honeypot || ''; // Honeypot field - should be empty
 
     // Validate
     const validation = validateQuoteRequest(leadData);

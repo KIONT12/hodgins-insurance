@@ -10,6 +10,36 @@
   html {
     scroll-behavior: smooth;
   }
+  
+  /* Optimize Florida silhouette background */
+  .florida-background {
+    background-image: url('/612F94E0-6851-4913-8B87-1CE8E8735A0E.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #000000;
+  }
+  
+  @media (max-width: 768px) {
+    .florida-background {
+      background-size: 120% auto;
+      background-position: center 20%;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .florida-background {
+      background-size: 80% auto;
+    }
+  }
+  
+  @media (min-width: 1025px) {
+    .florida-background {
+      background-size: 60% auto;
+      background-position: center center;
+    }
+  }
 }
 
 @layer components {

@@ -21,7 +21,7 @@ export default function FloatingCTA({ onClick }) {
     <>
       {isVisible && (
         <a
-          href="tel:7722444184"
+          href="tel:7722444350"
           className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white px-5 sm:px-8 py-3 sm:py-5 rounded-full shadow-2xl font-bold text-base sm:text-lg z-50 transition-all hover:scale-110 active:scale-95 md:hidden flex items-center gap-2 touch-manipulation"
           aria-label="Call now"
         >
