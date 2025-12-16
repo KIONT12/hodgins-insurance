@@ -15,17 +15,17 @@ export default function Hero({ onGetQuote }) {
   }
 
   return (
-    <section id="home" className="text-white py-12 sm:py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <section id="home" className="text-white py-8 sm:py-12 md:py-16 lg:py-24 min-h-screen flex items-center">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 w-full">
         {/* Main Headline - Above Everything */}
-        <div className="text-center mb-10 sm:mb-12 lg:mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-6 sm:mb-8 text-orange-500 px-2">
+        <div className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black leading-tight mb-4 sm:mb-6 md:mb-8 text-orange-500 px-2">
             Get Instant Home Insurance Quotes
           </h1>
         </div>
 
         {/* Address Search - Focused and Prominent */}
-        <div className="flex justify-center">
+        <div className="flex justify-center px-2 sm:px-0">
           <AddressSearch onLocationSelect={handleLocationSelect} />
         </div>
 

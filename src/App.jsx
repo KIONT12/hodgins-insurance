@@ -20,20 +20,20 @@ function App() {
   return (
     <div className="min-h-screen relative florida-background">
       {/* Subtle overlay for better text readability - optimized to show Florida silhouette clearly */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50 pointer-events-none"></div>
       
       <div className="relative z-10">
       {/* Header - Modern Glassmorphism Design */}
       <header className="bg-black/40 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-3 sm:py-5 lg:py-6 gap-2 sm:gap-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-2 sm:py-3 md:py-4 lg:py-6 gap-1.5 sm:gap-2 md:gap-4">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="bg-black/95 backdrop-blur-sm px-3 sm:px-5 md:px-6 py-2 sm:py-3 md:py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-orange-500/30">
+              <div className="bg-black/95 backdrop-blur-sm px-2 sm:px-3 md:px-5 lg:px-6 py-1.5 sm:py-2 md:py-3 lg:py-4 rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-orange-500/30">
                 <img 
                   src="/jpeg.jpg" 
                   alt="HODGINS Insurance Group" 
-                  className="h-14 sm:h-16 md:h-20 lg:h-24 xl:h-28 w-auto max-w-[200px] sm:max-w-none"
+                  className="h-10 sm:h-12 md:h-16 lg:h-20 xl:h-24 w-auto max-w-[140px] sm:max-w-[180px] md:max-w-none"
                 />
               </div>
             </div>

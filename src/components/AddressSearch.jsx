@@ -160,39 +160,39 @@ export default function AddressSearch({ onLocationSelect }) {
   }, [])
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-3xl mx-auto px-1 sm:px-0">
       {/* Address Search Form */}
       <form onSubmit={handleSubmit} className="relative" ref={inputRef}>
         <div className="relative">
           {/* House Icon */}
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 z-10">
-            <svg className="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="absolute left-3 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 text-gray-400 z-10">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
           </div>
 
-          {/* Input Field - Large and Prominent */}
+          {/* Input Field - Responsive sizing */}
           <input
             type="text"
             value={address}
             onChange={handleAddressChange}
             onKeyDown={handleKeyDown}
-            placeholder="Enter your Florida address, city, or zip code..."
-            className="w-full pl-16 sm:pl-20 pr-32 sm:pr-36 py-6 sm:py-7 text-lg sm:text-xl md:text-2xl text-gray-900 bg-white border-3 border-gray-300 hover:border-gray-400 focus:border-orange-500 rounded-2xl focus:ring-4 focus:ring-orange-500/30 outline-none transition-all shadow-2xl hover:shadow-3xl touch-manipulation font-medium"
+            placeholder="Enter address, city, or zip..."
+            className="w-full pl-12 sm:pl-14 md:pl-16 lg:pl-20 pr-20 sm:pr-24 md:pr-28 lg:pr-32 py-4 sm:py-5 md:py-6 lg:py-7 text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900 bg-white border-2 sm:border-3 border-gray-300 hover:border-gray-400 focus:border-orange-500 rounded-xl sm:rounded-2xl focus:ring-2 sm:focus:ring-4 focus:ring-orange-500/30 outline-none transition-all shadow-lg sm:shadow-2xl hover:shadow-xl sm:hover:shadow-3xl touch-manipulation font-medium"
             autoComplete="off"
             autoFocus
           />
 
-          {/* Get Quote Button */}
+          {/* Get Quote Button - Responsive */}
           <button
             type="submit"
             disabled={!selectedAddress}
-            className="absolute right-3 top-1/2 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 active:scale-95 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:opacity-60 text-white px-6 sm:px-8 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg transition-all shadow-xl hover:shadow-2xl flex items-center gap-2 touch-manipulation min-h-[56px] whitespace-nowrap"
+            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 active:scale-95 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:opacity-60 text-white px-3 sm:px-4 md:px-6 lg:px-8 py-2.5 sm:py-3 md:py-4 lg:py-5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm md:text-base lg:text-lg transition-all shadow-lg sm:shadow-xl hover:shadow-xl sm:hover:shadow-2xl flex items-center gap-1 sm:gap-2 touch-manipulation min-h-[44px] sm:min-h-[48px] md:min-h-[56px] whitespace-nowrap"
             title={!selectedAddress ? 'Please select an address first' : 'Get your quote'}
           >
             <span className="hidden sm:inline">{selectedAddress ? '✓ ' : ''}Get Quote</span>
             <span className="sm:hidden">{selectedAddress ? '✓' : 'Quote'}</span>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -200,9 +200,9 @@ export default function AddressSearch({ onLocationSelect }) {
 
         {/* Autocomplete Suggestions Dropdown */}
         {suggestions.length > 0 && (
-          <div className="absolute z-50 w-full mt-3 bg-white border-2 border-orange-500/50 rounded-2xl shadow-2xl overflow-hidden animate-fadeIn">
-            <div className="text-sm text-gray-600 px-5 py-4 bg-gradient-to-r from-orange-50 to-orange-100 border-b-2 border-orange-200 flex items-center gap-2">
-              <svg className="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+          <div className="absolute z-50 w-full mt-2 sm:mt-3 bg-white border-2 border-orange-500/50 rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden animate-fadeIn">
+            <div className="text-xs sm:text-sm text-gray-600 px-3 sm:px-4 md:px-5 py-2 sm:py-3 md:py-4 bg-gradient-to-r from-orange-50 to-orange-100 border-b-2 border-orange-200 flex items-center gap-2">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
               </svg>
               <span className="font-bold">Select Your Location</span>
@@ -212,21 +212,21 @@ export default function AddressSearch({ onLocationSelect }) {
                 key={index}
                 type="button"
                 onClick={() => handleSuggestionClick(location)}
-                className="w-full px-5 sm:px-6 py-5 text-left hover:bg-orange-50 active:bg-orange-100 transition-all border-b border-gray-200 last:border-b-0 touch-manipulation group hover:shadow-inner"
+                className="w-full px-3 sm:px-4 md:px-5 lg:px-6 py-3 sm:py-4 md:py-5 text-left hover:bg-orange-50 active:bg-orange-100 transition-all border-b border-gray-200 last:border-b-0 touch-manipulation group hover:shadow-inner"
               >
-                <div className="flex items-start gap-4">
-                  <div className="bg-orange-100 group-hover:bg-orange-200 p-3 rounded-lg transition-colors flex-shrink-0">
-                    <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                <div className="flex items-start gap-2 sm:gap-3 md:gap-4">
+                  <div className="bg-orange-100 group-hover:bg-orange-200 p-2 sm:p-2.5 md:p-3 rounded-lg transition-colors flex-shrink-0">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                     </svg>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-gray-900 group-hover:text-orange-600 text-lg transition-colors truncate">
+                    <p className="font-bold text-gray-900 group-hover:text-orange-600 text-sm sm:text-base md:text-lg transition-colors truncate">
                       {location.address}
                     </p>
-                    <p className="text-base text-gray-600 group-hover:text-gray-800 mt-1 flex items-center gap-2">
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600 group-hover:text-gray-800 mt-1 flex items-center gap-2 flex-wrap">
                       <span className="font-semibold">{location.city}, {location.state}</span>
-                      <span className="bg-gray-200 group-hover:bg-orange-200 px-3 py-1 rounded-lg text-sm font-mono font-bold">{location.zipCode}</span>
+                      <span className="bg-gray-200 group-hover:bg-orange-200 px-2 sm:px-2.5 md:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-xs sm:text-sm font-mono font-bold">{location.zipCode}</span>
                     </p>
                   </div>
                 </div>
@@ -238,17 +238,17 @@ export default function AddressSearch({ onLocationSelect }) {
 
       {/* Selected Address Display */}
       {selectedAddress && (
-        <div className="mt-6 p-5 bg-green-500/20 border-2 border-green-500/50 rounded-xl animate-fadeIn backdrop-blur-sm">
-          <div className="flex items-start gap-3">
-            <div className="bg-green-500/20 p-3 rounded-lg flex-shrink-0">
-              <svg className="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 md:p-5 bg-green-500/20 border-2 border-green-500/50 rounded-lg sm:rounded-xl animate-fadeIn backdrop-blur-sm">
+          <div className="flex items-start gap-2 sm:gap-3">
+            <div className="bg-green-500/20 p-2 sm:p-2.5 md:p-3 rounded-lg flex-shrink-0">
+              <svg className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
             </div>
-            <div className="flex-1">
-              <p className="font-bold text-green-400 text-base sm:text-lg">✓ Location Selected</p>
-              <p className="text-green-300 text-sm sm:text-base mt-1">{selectedAddress.address}</p>
-              <p className="text-green-400 font-semibold text-sm mt-1">Zip: {selectedAddress.zipCode}</p>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-green-400 text-sm sm:text-base md:text-lg">✓ Location Selected</p>
+              <p className="text-green-300 text-xs sm:text-sm md:text-base mt-1 truncate">{selectedAddress.address}</p>
+              <p className="text-green-400 font-semibold text-xs sm:text-sm mt-1">Zip: {selectedAddress.zipCode}</p>
             </div>
           </div>
         </div>
