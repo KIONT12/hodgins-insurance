@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 
 export default function AddressSearch({ onLocationSelect }) {
   const [address, setAddress] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [selectedAddress, setSelectedAddress] = useState(null)
   const inputRef = useRef(null)
+  const debounceTimerRef = useRef(null)
 
   // Florida cities with zip codes for autocomplete
   const floridaLocations = [
@@ -52,34 +53,62 @@ export default function AddressSearch({ onLocationSelect }) {
     { address: 'Palm Coast, FL', city: 'Palm Coast', zipCode: '32137', state: 'FL' },
   ]
 
-  // Handle address input change
-  const handleAddressChange = (e) => {
+  // Memoize location search for performance
+  const searchLocations = useCallback((searchValue) => {
+    if (searchValue.length < 2) {
+      setSuggestions([])
+      return
+    }
+
+    const lowerSearch = searchValue.toLowerCase()
+    const filtered = floridaLocations.filter(location =>
+      location.address.toLowerCase().includes(lowerSearch) ||
+      location.city.toLowerCase().includes(lowerSearch) ||
+      location.zipCode.includes(searchValue)
+    ).slice(0, 5) // Limit to 5 suggestions
+    
+    setSuggestions(filtered)
+    
+    // If user typed a 5-digit zip code that matches exactly, auto-select it
+    if (searchValue.length === 5 && /^\d{5}$/.test(searchValue)) {
+      const exactMatch = floridaLocations.find(loc => loc.zipCode === searchValue)
+      if (exactMatch) {
+        clearTimeout(debounceTimerRef.current)
+        setTimeout(() => {
+          handleSuggestionClick(exactMatch)
+        }, 50)
+      }
+    }
+  }, [])
+
+  // Mobile detection
+  const isMobile = useMemo(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  }, [])
+
+  // Handle address input change with debouncing (faster on mobile)
+  const handleAddressChange = useCallback((e) => {
     const value = e.target.value
     setAddress(value)
 
-    // Show suggestions when user types at least 2 characters
+    // Clear previous timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current)
+    }
+
+    // Faster debounce on mobile for better responsiveness
+    const debounceTime = isMobile ? 100 : 150
+    
+    // Debounce search for better performance
     if (value.length >= 2) {
-      const filtered = floridaLocations.filter(location =>
-        location.address.toLowerCase().includes(value.toLowerCase()) ||
-        location.city.toLowerCase().includes(value.toLowerCase()) ||
-        location.zipCode.includes(value)
-      ).slice(0, 5) // Limit to 5 suggestions
-      
-      setSuggestions(filtered)
-      
-      // If user typed a 5-digit zip code that matches exactly, auto-select it
-      if (value.length === 5 && /^\d{5}$/.test(value)) {
-        const exactMatch = floridaLocations.find(loc => loc.zipCode === value)
-        if (exactMatch) {
-          setTimeout(() => {
-            handleSuggestionClick(exactMatch)
-          }, 100)
-        }
-      }
+      debounceTimerRef.current = setTimeout(() => {
+        searchLocations(value)
+      }, debounceTime)
     } else {
       setSuggestions([])
     }
-  }
+  }, [searchLocations, isMobile])
 
   // Handle Enter key press
   const handleKeyDown = (e) => {
@@ -96,23 +125,30 @@ export default function AddressSearch({ onLocationSelect }) {
   }
 
   // Handle suggestion click
-  const handleSuggestionClick = (location) => {
+  const handleSuggestionClick = useCallback((location) => {
     console.log('Location selected:', location)
     setAddress(location.address)
     setSelectedAddress(location)
     setSuggestions([])
+    
+    // Clear any pending debounce
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current)
+    }
     
     // Immediately pass location to parent to update form
     if (onLocationSelect) {
       const locationData = {
         name: location.city,
         zipCode: location.zipCode,
-        address: location.address
+        address: location.address,
+        city: location.city,
+        state: location.state || 'FL'
       }
       onLocationSelect(locationData)
       console.log('Called onLocationSelect with:', locationData)
     }
-  }
+  }, [onLocationSelect])
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -120,30 +156,27 @@ export default function AddressSearch({ onLocationSelect }) {
     console.log('Form submitted with selected address:', selectedAddress)
     
     if (selectedAddress) {
-      // Pass location to parent
+      // Pass location to parent to start quote flow
       if (onLocationSelect) {
         onLocationSelect({
           name: selectedAddress.city,
           zipCode: selectedAddress.zipCode,
-          address: selectedAddress.address
+          address: selectedAddress.address,
+          city: selectedAddress.city,
+          state: selectedAddress.state || 'FL'
         })
       }
-      
-      // Scroll to form if it exists
-      const formElement = document.getElementById('quote-form')
-      if (formElement) {
-        formElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        
-        // Focus on the form after scrolling
-        setTimeout(() => {
-          const firstInput = formElement.querySelector('input, select')
-          if (firstInput) {
-            firstInput.focus()
-          }
-        }, 500)
-      }
     } else {
-      alert('Please select an address from the suggestions')
+      // Show error if no address selected
+      setSuggestions([])
+      const input = document.querySelector('input[type="text"]')
+      if (input) {
+        input.focus()
+        input.style.borderColor = '#ef4444'
+        setTimeout(() => {
+          input.style.borderColor = ''
+        }, 2000)
+      }
     }
   }
 

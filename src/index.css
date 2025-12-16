@@ -54,6 +54,25 @@
 }
 
 @layer components {
+  /* Mobile performance optimizations */
+  @media (max-width: 768px) {
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+    
+    /* Reduce animations on mobile for better performance */
+    .animate-fadeIn {
+      animation: none;
+      opacity: 1;
+    }
+    
+    /* Optimize transitions */
+    * {
+      transition-duration: 0.15s !important;
+    }
+  }
+  
   .btn-primary {
     @apply bg-accent-500 hover:bg-accent-600 text-white font-bold py-4 px-10 rounded-xl transition-all duration-200 shadow-xl hover:scale-105 text-lg;
   }
